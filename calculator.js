@@ -73,13 +73,10 @@ buttonContainer.addEventListener("click", (event) => {
             case "-":
             case "*":
             case "/":
-                if (!operation.operator) {
-                    operation.operator = buttonText;
-                    updateDisplay(operation.num2);
-                }
-                else {
+                if (operation.operator) {
                     resetOperation(operate(operation.num1, operation.num2, operation.operator));
                 }
+                operation.operator = buttonText;
                 break;
 
             case "+/-":
