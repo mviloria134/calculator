@@ -1,7 +1,8 @@
 const operation = {
     num1: 0,
     num2: 0,
-    operator: ""
+    operator: "",
+    finished: false
 };
 
 const display = document.querySelector("#calc-display");
@@ -47,14 +48,15 @@ function operate(num1, num2, operator) {
             return divide(num1, num2);
     
         default:
-            break;
+            return num1;
     }
 }
 
-function resetOperation(prevResult = 0) {
+function resetOperation(prevResult = 0, finished = false) {
     operation.num1 = prevResult;
     operation.num2 = 0;
     operation.operator = "";
+    operation.finished = finished;
 
     updateDisplay(operation.num1);
 }
@@ -76,6 +78,7 @@ buttonContainer.addEventListener("click", (event) => {
                 if (operation.operator) {
                     resetOperation(operate(operation.num1, operation.num2, operation.operator));
                 }
+                operation.finished = false;
                 operation.operator = buttonText;
                 break;
 
@@ -86,10 +89,13 @@ buttonContainer.addEventListener("click", (event) => {
                 break;
 
             case "=":
-                resetOperation(operate(operation.num1, operation.num2, operation.operator));
+                resetOperation(operate(operation.num1, operation.num2, operation.operator), true);
                 break;
 
             default:
+                if (operation.finished) {
+                    resetOperation();
+                }
                 if (!operation.operator) {
                     appendNumberOnto("num1", parseInt(buttonText));
                 }
