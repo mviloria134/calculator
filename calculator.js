@@ -7,9 +7,16 @@ const operation = {
 
 const display = document.querySelector("#calc-display");
 const buttonContainer = document.querySelector("#buttons");
+const decimalButton = document.querySelector('.decimal');
 
 function updateDisplay(num) {
     display.value = num;
+    if (display.value.includes(".")) {
+        decimalButton.disabled = true;
+    }
+    else {
+        decimalButton.disabled = false;
+    }
 }
 
 function negateNumber(numLabel) {
@@ -18,7 +25,12 @@ function negateNumber(numLabel) {
 }
 
 function appendNumberOnto(numLabel, toAppend) {
-    operation[numLabel] = operation[numLabel] * 10 + toAppend;
+    if (!operation[numLabel]) {
+        operation[numLabel] = toAppend;
+    }
+    else {
+        operation[numLabel] = operation[numLabel] + toAppend;
+    }
     updateDisplay(operation[numLabel]);
 }
 
@@ -39,21 +51,23 @@ function divide(a, b) {
 }
 
 function operate(num1, num2, operator) {
+    const n1 = parseFloat(num1);
+    const n2 = parseFloat(num2);
     switch (operator) {
         case "+":
-            return add(num1, num2);
+            return add(n1, n2);
 
         case "-":
-            return subtract(num1, num2);
+            return subtract(n1, n2);
 
         case "*":
-            return multiply(num1, num2);
+            return multiply(n1, n2);
         
         case "/":
-            return divide(num1, num2);
+            return divide(n1, n2);
     
         default:
-            return num1;
+            return n1;
     }
 }
 
@@ -96,9 +110,6 @@ buttonContainer.addEventListener("click", (event) => {
                 }
                 break;
 
-            case ".":
-                break;
-
             case "=":
                 resetOperation(operate(operation.num1, operation.num2, operation.operator), true);
                 break;
@@ -108,10 +119,10 @@ buttonContainer.addEventListener("click", (event) => {
                     resetOperation();
                 }
                 if (!operation.operator) {
-                    appendNumberOnto("num1", parseInt(buttonText));
+                    appendNumberOnto("num1", buttonText);
                 }
                 else {
-                    appendNumberOnto("num2", parseInt(buttonText));
+                    appendNumberOnto("num2", buttonText);
                 }
                 break;
         }
