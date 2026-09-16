@@ -29,6 +29,7 @@ button {
 
     width: 50%;
     min-width: 500px;
+    max-width: 1000px;
     height: 60%;
     min-height: 650px;
     background-color: aliceblue;
