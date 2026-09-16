@@ -12,6 +12,11 @@ function updateDisplay(num) {
     display.value = num;
 }
 
+function negateNumber(numLabel) {
+    operation[numLabel] = operation[numLabel] * -1;
+    updateDisplay(operation[numLabel]);
+}
+
 function appendNumberOnto(numLabel, toAppend) {
     operation[numLabel] = operation[numLabel] * 10 + toAppend;
     updateDisplay(operation[numLabel]);
@@ -83,6 +88,12 @@ buttonContainer.addEventListener("click", (event) => {
                 break;
 
             case "+/-":
+                if (!operation.operator) {
+                    negateNumber("num1");
+                }
+                else {
+                    negateNumber("num2");
+                }
                 break;
 
             case ".":
